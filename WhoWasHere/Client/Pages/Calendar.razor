@@ -1,0 +1,66 @@
+﻿@page "/calendar"
+@using WhoWasHere.Shared
+
+
+<h1>Calendar</h1>
+
+@if (@MonthsName != null && daysName != null && weeks != null && DaySelected != null)
+{
+    <select @onchange="OnMonthChange" >
+        @foreach (string name in MonthsName)
+        {
+            <option >@name</option>
+
+        }
+    </select>
+    <br />
+
+
+
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                @foreach (string day in daysName)
+                {
+                    <th style="text-align:center;">
+                        @day
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var week in weeks)
+            {
+                <tr>
+                    @foreach (var day in week.Days)
+                    {
+                        <td >
+                            <h6 style="text-align:center; font:bold; border-bottom:1px solid;" >@string.Concat(@day.DayNumber, " - ", day.DayName)</h6>  
+                            <br />
+                            <label @onclick="@(e => OnModifyDayInfo(@day))">  @day.Note</label>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>    
+    
+    <div id="dayinfo" style=" border:1px; border-color:blueviolet;  width:auto; height:auto; ">
+        <textarea style=" width: 100%; height: 100%">
+            @DaySelected.Note
+        </textarea>
+        <button class="btn btn-primary" @onclick="@(e=> OnSaveDayInfo(@DaySelected))"> Save</button>
+    </div>
+
+
+
+}
+else
+{
+    <em>Loading..</em>
+}
+
+
+
+
