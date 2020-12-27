@@ -2,14 +2,15 @@
 @using WhoWasHere.Shared
 
 
+
 <h1>Calendar</h1>
 
 @if (@MonthsName != null && daysName != null && weeks != null && DaySelected != null)
 {
-    <select @onchange="OnMonthChange" >
+    <select @onchange="OnMonthChange">
         @foreach (string name in MonthsName)
         {
-            <option >@name</option>
+            <option>@name</option>
 
         }
     </select>
@@ -20,38 +21,42 @@
             <tr>
                 @foreach (string day in daysName)
                 {
-                    <th style="text-align:center;">
-                        @day
-                    </th>
+                <th style="text-align:center;">
+                    @day
+                </th>
                 }
             </tr>
         </thead>
         <tbody>
             @foreach (var week in weeks)
             {
-                <tr>
-                    @foreach (var day in week.Days)
-                    {
-                        <td >
-                            <h6 style="text-align:center; font:bold; border-bottom:1px solid;" >@string.Concat(@day.DayNumber, " - ", day.DayName)</h6>  
+            <tr>
+                @foreach (var day in week.Days)
+                {
+                        
+                        <td style="cursor: pointer;" @onclick="@(e => OnModifyDayInfo(@day))" >
+                            <h6 style="text-align:center; font:bold; border-bottom:1px solid; "> @string.Concat(@day.Date.Day, " - ", @day.DayName)</h6>
                             <br />
-                            <label @onclick="@(e => OnModifyDayInfo(@day))">  @day.Note</label>
+                            <label>  @day.Note</label>
                         </td>
-                    }
-                </tr>
+                }
+            </tr>
             }
         </tbody>
-    </table>    
-    
+    </table>
+
+    <hr/>
+
     <div id="dayinfo" style=" border:1px; border-color:blueviolet;  width:auto; height:auto; ">
-        <textarea style=" width: 100%; height: 100%">
-            @DaySelected.Note
+        <div style="background:#8b13fb; ">
+            <h6>@string.Concat(@DaySelected.Date.Day, " - ", @DaySelected.DayName)</h6>
+        </div>
+        <textarea style=" width: 100%; height: 100%" @bind="@DaySelected.Note">            
         </textarea>
         <button class="btn btn-primary" @onclick="@(e=> OnSaveDayInfo(@DaySelected))"> Save</button>
     </div>
 
-
-
+        
 }
 else
 {
