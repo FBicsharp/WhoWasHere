@@ -9,10 +9,9 @@ namespace WhoWasHere.Shared.Calendar
     public interface IDay
     {
         int Id { get; set; }
-        string Note { get; set; }        
-        int DayNumber { get; set; }
+        string Note { get; set; }                
         string DayName { get; set; }
-        
+        DateTime Date { get; set; }
 
     }
 }
