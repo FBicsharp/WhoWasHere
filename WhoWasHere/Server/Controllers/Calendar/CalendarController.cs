@@ -51,30 +51,19 @@ namespace WhoWasHere.Server.Controllers.Calendar
 
             var dayList = _context.Day.Where(d => d.Date >= startDate && d.Date <= endDate).ToList();            
 
-            if (dayList.Count() == 0)
-            {
-                return NotFound();
-            }
-            foreach (var day  in dayList)
-            {
-                day.DayName = day.Date.ToString("dddd");
+            if (dayList.Count() >= 0)
+            {                
+                foreach (var day  in dayList)
+                {
+                    day.DayName = day.Date.ToString("dddd");
+                }
             }
             return dayList;
         }
 
-    #endregion
+        #endregion
 
-
-
-
-
-
-
-
-
-
-
-
+        #region PUT...
 
         // PUT: api/Calendar/id
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -108,6 +97,7 @@ namespace WhoWasHere.Server.Controllers.Calendar
             return NoContent();
         }
 
+        #endregion
         #region POST...
 
 

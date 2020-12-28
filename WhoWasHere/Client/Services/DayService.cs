@@ -49,8 +49,9 @@ namespace WhoWasHere.Client.Services
         }
 
         public async Task<IEnumerable<Day>> GetDaysOnDateRangeAsync(DateTime startDate, DateTime endDate)
-        {            
-            return  await httpClient.GetFromJsonAsync<IEnumerable<Day>>("api/Calendar/" + startDate.ToString("yyyy-MM-dd")+"/"+ endDate.ToString("yyyy-MM-dd"));
+        {
+            return  await httpClient.GetFromJsonAsync<IEnumerable<Day>>("api/Calendar/" + startDate.ToString("yyyy-MM-dd") + "/" + endDate.ToString("yyyy-MM-dd"));
+            
         }
 
         public async Task<IDay> PutDayAsync(int id, Day day)

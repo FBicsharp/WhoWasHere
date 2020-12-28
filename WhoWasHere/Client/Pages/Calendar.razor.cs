@@ -27,17 +27,24 @@ namespace WhoWasHere.Client.Pages
         protected DateTime selectedMonth { get; set; } = DateTime.Now;
 
         public List<string> daysName { get; set; }
-        public List<string> MonthsName { get; set; } = new List<string>();
+        private DateTime dayfromdatapicker { get; set; }
 
         public IDay DaySelected { get; set; }
+        //|§FB001 gestione controllo select
+        //public List<string> MonthsName { get; set; } = new List<string>();
+        //|çFB001 
 
 
 
 
         protected override async Task OnInitializedAsync()
         {
-            MonthsName = CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames.ToList();
-            MonthsName.Remove("");
+
+            //|§FB001 gestione controllo select
+            //MonthsName = CultureInfo.CurrentCulture.DateTimeFormat.MonthGenitiveNames.ToList();
+            //MonthsName.Remove("");
+
+            //|çFB001 
             try
             {
                 GenerateCalendarHead();
@@ -63,7 +70,7 @@ namespace WhoWasHere.Client.Pages
             Day day;
             Day existingDay;
             var daysRegistred = await DayServices.GetDaysOnDateRangeAsync(startDate, endDate);
-
+            DaySelected = null;
 
             for (var dt = startDate; dt <= endDate; dt = dt.AddDays(1))
             {
@@ -85,7 +92,7 @@ namespace WhoWasHere.Client.Pages
                     days.Add(day);
                 }
 
-                if (DateTime.Now.Day == dt.Day && DateTime.Now.Month == dt.Month) 
+                if (dayfromdatapicker.ToString("dd-MM-YYYY") == dt.ToString("dd-MM-YYYY")) 
                 {                    
                     DaySelected = days.Last();
                 }
@@ -101,15 +108,19 @@ namespace WhoWasHere.Client.Pages
                 }
                 if (dt >= endDate)
                 {
+                    if (DaySelected == null )
+                    {
+                        DaySelected = days.Last();
+                    }
                     week = new Week();
                     week.Days = days;
                     weeks.Add(week);
                     days = new List<IDay>();
                     break;
-                }                
-                
+                }                                
             }
             return true;
+            
         }
 
         /// <summary>
@@ -126,17 +137,41 @@ namespace WhoWasHere.Client.Pages
         }
 
 
-        public async Task OnMonthChange(ChangeEventArgs e) 
+        public async void OnMonthChange(ChangeEventArgs e) 
         {
-            var monthNameSelected = e.Value.ToString();
-            var monthindex = MonthsName.FindIndex((monthname) => monthname == monthNameSelected)+1 ;
-            startDate = new DateTime(DateTime.Now.Year, monthindex, 1);
-            endDate = (new DateTime(DateTime.Now.Year, monthindex, 1)).AddMonths(1).AddDays(-1);
-            GenerateCalendarHead();
-            var a = await GenerateCalendarBody(); 
-
-
+            //|§FB001 gestione controllo select
+            //var monthNameSelected = e.Value.ToString();
+            //var monthindex = MonthsName.FindIndex((monthname) => monthname == monthNameSelected) + 1;
+            //|çFB001
+            DateTime datesel ;
+            try
+            {
+                datesel = DateTime.Parse(e.Value.ToString());
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Formato errato della data");
+                return;
+            }
+            dayfromdatapicker = datesel;
+            startDate = new DateTime(dayfromdatapicker.Year, dayfromdatapicker.Month, 1);
+            endDate = (new DateTime(dayfromdatapicker.Year, dayfromdatapicker.Month, 1)).AddMonths(1).AddDays(-1);
+             
+            try
+            {
+                
+                GenerateCalendarHead();
+               var a = await GenerateCalendarBody();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error"+ex);                
+            }
+            
         }
+
+        
 
         #region Editing day info
 
@@ -144,10 +179,8 @@ namespace WhoWasHere.Client.Pages
         protected void OnModifyDayInfo(IDay day)=> DaySelected = day;
 
         protected async void OnSaveDayInfo(IDay day)
-        {
-            Console.WriteLine(day.DayName + day.Note);
-            var newday = await DayServices.CreateOrUpdate(day as Day);
-            Console.WriteLine(day.DayName + day.Note);
+        {            
+            var newday = await DayServices.CreateOrUpdate(day as Day);            
             DaySelected = newday;
             //chiama l'api e fa post dello specifico id            
         }

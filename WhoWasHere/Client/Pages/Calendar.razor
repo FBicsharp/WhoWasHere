@@ -3,17 +3,24 @@
 
 
 
+
 <h1>Calendar</h1>
 
-@if (@MonthsName != null && daysName != null && weeks != null && DaySelected != null)
+@if (daysName != null && weeks != null && DaySelected != null)
 {
-    <select @onchange="OnMonthChange">
-        @foreach (string name in MonthsName)
-        {
-            <option>@name</option>
+    //|§FB001 gestione controllo select
+    @*<select @onchange="OnMonthChange"  >
+            @foreach (string name in MonthsName)
+            {
+                <option>@name</option>
 
-        }
-    </select>
+            }
+        </select>*@
+    //|çFB001 gestione controllo select
+
+    <input type="date" @bind-value="@DaySelected.Date" @oninput="OnMonthChange" />
+    
+
     <br />
 
     <table class="table table-bordered table-striped">
@@ -21,31 +28,31 @@
             <tr>
                 @foreach (string day in daysName)
                 {
-                <th style="text-align:center;">
-                    @day
-                </th>
+                    <th style="text-align:center;">
+                        @day
+                    </th>
                 }
             </tr>
         </thead>
         <tbody>
             @foreach (var week in weeks)
             {
-            <tr>
-                @foreach (var day in week.Days)
-                {
-                        
-                        <td style="cursor: pointer;" @onclick="@(e => OnModifyDayInfo(@day))" >
+                <tr>
+                    @foreach (var day in week.Days)
+                    {
+
+                        <td style="cursor: pointer;" @onclick="@(e => OnModifyDayInfo(@day))">
                             <h6 style="text-align:center; font:bold; border-bottom:1px solid; "> @string.Concat(@day.Date.Day, " - ", @day.DayName)</h6>
                             <br />
                             <label>  @day.Note</label>
                         </td>
-                }
-            </tr>
+                    }
+                </tr>
             }
         </tbody>
     </table>
 
-    <hr/>
+    <hr />
 
     <div id="dayinfo" style=" border:1px; border-color:blueviolet;  width:auto; height:auto; ">
         <div style="background:#8b13fb; ">
@@ -56,11 +63,11 @@
         <button class="btn btn-primary" @onclick="@(e=> OnSaveDayInfo(@DaySelected))"> Save</button>
     </div>
 
-        
+
 }
 else
 {
-    <em>Loading..</em>
+    <WhoWasHere.Client.Pages.Loader.Loding />
 }
 
 
