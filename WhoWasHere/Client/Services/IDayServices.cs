@@ -16,6 +16,7 @@ namespace WhoWasHere.Client.Services
 
         
         Task<IDay> CreateOrUpdate(Day day);
-        
+        Task<IDay> DeleteDayAsync(Day day);
+
     }
 }

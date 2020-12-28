@@ -68,16 +68,43 @@ namespace WhoWasHere.Client.Services
                 return day;
             }
         }
+        public async Task<IDay> DeleteDayAsync(Day day)
+        {
+            var response = await httpClient.DeleteAsync($"api/Calendar/{day.Id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new Day(){
+                    Id = 0,
+                    Date = day.Date,
+                    DayName = day.Date.ToString("dddd"),
+                    Note = ""
+                };                 
+            }
+            else
+            {
+                return day;
+                
+            }
+        }
 
         public async Task<IDay> CreateOrUpdate(Day day)
         {
 
+            if (day.Id == 0 && String.IsNullOrEmpty(day.Note.Trim()) )
+                return day;
             IDay result = day;
-            if (day.Id == 0)
+            
+
+            if (day.Id == 0 && !String.IsNullOrEmpty(day.Note.Trim()))
             {
                  result = await PostDayAsync(day);
             }
-            else
+            else if(String.IsNullOrEmpty(day.Note.Trim()) && day.Id >0)
+            {
+                result = await DeleteDayAsync(day);
+            }
+            else 
             {
                 result = await PutDayAsync(day.Id, day);                
             }

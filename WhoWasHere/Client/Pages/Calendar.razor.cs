@@ -79,16 +79,18 @@ namespace WhoWasHere.Client.Pages
                     Date= dt,
                     DayName = dt.ToString("dddd"),
                     Note = ""
+                    
                 };
                 
                 existingDay  = (Day) daysRegistred.ToList().Find(x => x.Date.ToString("dd-MM-yyyy") == dt.ToString("dd-MM-yyyy"));
 
                 if (existingDay != null)
-                {
+                {                    
                     days.Add(existingDay);
                 }
                 else
                 {
+                 
                     days.Add(day);
                 }
 
@@ -180,6 +182,7 @@ namespace WhoWasHere.Client.Pages
 
         protected async void OnSaveDayInfo(IDay day)
         {            
+            
             var newday = await DayServices.CreateOrUpdate(day as Day);            
             DaySelected = newday;
             //chiama l'api e fa post dello specifico id            
