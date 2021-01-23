@@ -1,0 +1,42 @@
+﻿
+@page "/Insewrction"
+
+@if (ShowDialog)
+{
+
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleLabel">Add Employee</h5>
+                    <button type="button" class="close" @onclick="@Close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="@Customers" OnValidSubmit="@HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <div class="form-group">
+                            <label for="lastName">Last name: </label>
+                            <InputText id="lastName" class="form-control" @bind-Value="@Customers.Name" placeholder="Enter last name"></InputText>
+                            <ValidationMessage For="@(() => Customers.Name)" />
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">First name: </label>
+                            <InputText id="firstName" class="form-control" @bind-Value="@Customers.Surname" placeholder="Enter first name"></InputText>
+                            <ValidationMessage For="@(() => Customers.Surname)" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email: </label>
+                            <InputText id="email" class="form-control" @bind-Value="@Customers.Address" placeholder="Enter email"></InputText>
+                            <ValidationMessage For="@(() => Customers.Address)" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save customer</button>
+                        <a class="btn btn-outline-primary" @onclick="@Close">Close</a>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}  

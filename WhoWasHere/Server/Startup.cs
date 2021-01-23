@@ -11,6 +11,7 @@ using WhoWasHere.Server.Data.Calendar;
 using WhoWasHere.Client.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Data.SqlClient;
+using WhoWasHere.Server.Data.Customer;
 
 namespace WhoWasHere.Server
 {
@@ -30,6 +31,7 @@ namespace WhoWasHere.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddDbContext<CalendarContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CalendarContext")));            
+            services.AddDbContext<CustomerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CalendarContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

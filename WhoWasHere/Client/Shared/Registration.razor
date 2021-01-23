@@ -1,0 +1,28 @@
+﻿@page "/Registration"
+@using WhoWasHere.Client.Pages.Inserctions;
+
+
+
+
+    <div>
+
+        <button class="btn btn-primary" type="submit" @onclick="@(e=> QuickAddEmployee())"> Save</button>
+    </div>
+    <Inserction @ref="ins"></Inserction>
+@code
+{
+
+    public Inserction ins { get; set; }
+
+    protected void QuickAddEmployee()
+    {
+        ins.Show();
+    }
+
+
+
+
+
+    
+
+}

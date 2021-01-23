@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WhoWasHere.Shared.Calendar;
 using WhoWasHere.Shared.Customer;
 
-namespace WhoWasHere.Server.Data.Calendar
+namespace WhoWasHere.Server.Data.Customer
 {
-    public class CalendarContext : DbContext
+    public class CustomerContext : DbContext
     {
-        public CalendarContext(DbContextOptions<CalendarContext> options)
+        public CustomerContext(DbContextOptions<CustomerContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Day> Day { get; set; }
-        
+        public DbSet<CustomerModel> CustomerModel { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {            
+        {
             base.OnModelCreating(modelBuilder);
         }
     }

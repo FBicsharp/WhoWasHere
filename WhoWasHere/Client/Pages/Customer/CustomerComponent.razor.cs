@@ -3,17 +3,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WhoWasHere.Client.Services;
+using WhoWasHere.Shared.Customer;
+using WhoWasHere.Client.Pages;
 
 namespace WhoWasHere.Client.Pages.Customer
 {
     public partial class CustomerComponent : ComponentBase
     {
-        public string FullName { get; set; } 
-        public string Address { get; set; } 
-        public long Number { get; set; } 
-        private DateTime LastVisit { get; set; } 
-        public string LastVisitDay { get;  } 
+    
+        
 
+        [Inject]
+        private ICustomerService CustomerService { get; set; }
+        
+        public IEnumerable<CustomerModel> Customerlist { get; set; }
+
+        protected async  override Task OnInitializedAsync()
+        {
+            Customerlist = await CustomerService.GetCustomersAsync();
+            
+        }
+
+
+       
 
 
     }

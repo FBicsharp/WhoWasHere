@@ -1,14 +1,44 @@
 ﻿
-<div class="card text-center">
-    <div class="card-header">
-        @FullName
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Address</h5>
-        <p class="card-text">@Number</p>
-        @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
-    </div>
-    <div class="card-footer text-muted">
-        @LastVisitDay
-    </div>
+
+
+@if (Customerlist != null)
+{
+
+    @if (Customerlist.Count() > 0)
+    {
+        @foreach (var p in Customerlist)
+        {
+
+            <div class="card text-center  " style="width: 200px; margin: 15px; display: inline-flex; ">
+                <div class="card-header colored">
+                    <h5 class="card-title">@p.GetFullName()</h5>
+                </div>
+                <div class="card-body">
+
+                    <p class="card-text">@p.Address</p>
+                    <p class="card-text">@p.PhoneNumber</p>
+                    @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+                </div>
+                <div class="card-footer text-muted">
+                    @p.Notes
+                </div>
+            </div>
+        }
+    }
+<div>
+    <Registration></Registration>
+
 </div>
+    
+}
+else
+{
+
+    <loading></loading>
+}
+
+
+
+
+
+
