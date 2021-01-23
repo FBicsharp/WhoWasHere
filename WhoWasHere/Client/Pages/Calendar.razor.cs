@@ -9,14 +9,18 @@ using WhoWasHere.Client.Services;
 using WhoWasHere.Shared;
 using WhoWasHere.Shared.Calendar;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace WhoWasHere.Client.Pages
 {
     public partial class Calendar  : ComponentBase
     {
-       [Inject] 
+        [Inject] 
         public IDayServices DayServices { get; set; }
-             
+        [Inject]
+        private ILogger<Calendar> Logger { get; set; }
+        
         
         public List<Week> weeks { get; set; }        
 
@@ -35,7 +39,7 @@ namespace WhoWasHere.Client.Pages
         //|çFB001 
 
 
-
+        
 
         protected override async Task OnInitializedAsync()
         {
@@ -46,13 +50,16 @@ namespace WhoWasHere.Client.Pages
 
             //|çFB001 
             try
-            {
+            {                
                 GenerateCalendarHead();
-                var a = await GenerateCalendarBody();
+                var a = await GenerateCalendarBody();                
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error" + ex);                
+                var exep = "Error in initialize Calendar " + ex+ ex.StackTrace;
+                Console.WriteLine(exep);
+                Logger.LogDebug(exep);
+
             }           
         }
 

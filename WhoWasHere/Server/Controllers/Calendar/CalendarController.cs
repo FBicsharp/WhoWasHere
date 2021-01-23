@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using WhoWasHere.Shared.Calendar;
 namespace WhoWasHere.Server.Controllers.Calendar
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
     public class CalendarController : ControllerBase
     {
         private readonly CalendarContext _context;
@@ -21,12 +22,15 @@ namespace WhoWasHere.Server.Controllers.Calendar
             _context = context;
         }
 
-    #region GET...
+        #region GET...
         // GET: api/Calendar
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<IDay>>> GetDay()
+        public async Task<JsonResult> GetDay()
         {
-            return await _context.Day.ToListAsync();
+            var test = await _context.Day.ToListAsync();
+            return new JsonResult(test);
+             //return await _context.Day.ToListAsync();
+
         }
 
         // GET: api/Calendar/id
@@ -39,26 +43,26 @@ namespace WhoWasHere.Server.Controllers.Calendar
             {
                 return NotFound();
             }
-
-            return day;
+            day.DayName = day.Date.ToString("dddd");
+            return new JsonResult(day);
         }
 
 
         // GET: api/Calendar/startDate/endDate
-        [HttpGet("{startDate:DateTime}/{endDate:DateTime}", Name ="GetDayBetweenDate")]        
-        public async Task<ActionResult<IEnumerable<Day>>> GetDayBetweenDateAsync( DateTime startDate,  DateTime endDate)
+        [HttpGet("{startDate:DateTime}/{endDate:DateTime}", Name = "GetDayBetweenDate")]
+        public async Task<JsonResult> GetDayBetweenDateAsync(DateTime startDate, DateTime endDate)
         {
 
-            var dayList = _context.Day.Where(d => d.Date >= startDate && d.Date <= endDate).ToList();            
+            var dayList = _context.Day.Where(d => d.Date >= startDate && d.Date <= endDate).ToList();
 
             if (dayList.Count() >= 0)
-            {                
-                foreach (var day  in dayList)
+            {
+                foreach (var day in dayList)
                 {
                     day.DayName = day.Date.ToString("dddd");
                 }
             }
-            return dayList;
+            return new JsonResult(dayList);
         }
 
         #endregion
@@ -67,8 +71,8 @@ namespace WhoWasHere.Server.Controllers.Calendar
 
         // PUT: api/Calendar/id
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDay(int id, Day day)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> PutDay(int id,[FromBody] Day day)
         {
             if (id != day.Id)
             {
@@ -89,8 +93,9 @@ namespace WhoWasHere.Server.Controllers.Calendar
                 }
                 else
                 {
+                    return BadRequest();
                     throw;
-                    
+
                 }
             }
 
@@ -105,8 +110,8 @@ namespace WhoWasHere.Server.Controllers.Calendar
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<IDay>> PostDay(Day day)
-        {            
-            if (day == null) 
+        {
+            if (day == null)
             {
                 return BadRequest();
             }
@@ -122,7 +127,7 @@ namespace WhoWasHere.Server.Controllers.Calendar
 
 
         // DELETE: api/Calendar/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteDay(int id)
         {
             var day = await _context.Day.FindAsync(id);

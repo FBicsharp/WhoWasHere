@@ -18,8 +18,8 @@ namespace WhoWasHere.Client.Services
         private readonly HttpClient httpClient;
 
         public DayService(HttpClient httpClient)
-        {       
-            this.httpClient = httpClient;            
+        {
+            this.httpClient = httpClient;
         }
 
 
@@ -28,10 +28,10 @@ namespace WhoWasHere.Client.Services
             return await httpClient.GetFromJsonAsync<IEnumerable<Day>>("api/Calendar");
         }
 
-        
+
         public async Task<IDay> PostDayAsync(IDay day)
-        {            
-            var response = await httpClient.PostAsJsonAsync<IDay>("api/Calendar", day);            
+        {
+            var response = await httpClient.PostAsJsonAsync<IDay>("api/Calendar", day);
             if (response.IsSuccessStatusCode)
             {
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -41,7 +41,7 @@ namespace WhoWasHere.Client.Services
             {
                 return day;
             }
-        } 
+        }
 
         public async Task<IDay> GetDayFromIdAsync()
         {
@@ -50,8 +50,7 @@ namespace WhoWasHere.Client.Services
 
         public async Task<IEnumerable<Day>> GetDaysOnDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return  await httpClient.GetFromJsonAsync<IEnumerable<Day>>("api/Calendar/" + startDate.ToString("yyyy-MM-dd") + "/" + endDate.ToString("yyyy-MM-dd"));
-            
+            return await httpClient.GetFromJsonAsync<IEnumerable<Day>>("api/Calendar/" + startDate.ToString("yyyy-MM-dd") + "/" + endDate.ToString("yyyy-MM-dd"));
         }
 
         public async Task<IDay> PutDayAsync(int id, Day day)
@@ -74,39 +73,40 @@ namespace WhoWasHere.Client.Services
 
             if (response.IsSuccessStatusCode)
             {
-                return new Day(){
+                return new Day()
+                {
                     Id = 0,
                     Date = day.Date,
                     DayName = day.Date.ToString("dddd"),
                     Note = ""
-                };                 
+                };
             }
             else
             {
                 return day;
-                
+
             }
         }
 
         public async Task<IDay> CreateOrUpdate(Day day)
         {
 
-            if (day.Id == 0 && String.IsNullOrEmpty(day.Note.Trim()) )
+            if (day.Id == 0 && String.IsNullOrEmpty(day.Note.Trim()))
                 return day;
             IDay result = day;
-            
+
 
             if (day.Id == 0 && !String.IsNullOrEmpty(day.Note.Trim()))
             {
-                 result = await PostDayAsync(day);
+                result = await PostDayAsync(day);
             }
-            else if(String.IsNullOrEmpty(day.Note.Trim()) && day.Id >0)
+            else if (String.IsNullOrEmpty(day.Note.Trim()) && day.Id > 0)
             {
                 result = await DeleteDayAsync(day);
             }
-            else 
+            else
             {
-                result = await PutDayAsync(day.Id, day);                
+                result = await PutDayAsync(day.Id, day);
             }
 
 

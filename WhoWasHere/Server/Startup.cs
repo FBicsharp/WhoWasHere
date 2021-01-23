@@ -9,6 +9,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using WhoWasHere.Server.Data.Calendar;
 using WhoWasHere.Client.Services;
+using Microsoft.Extensions.Logging;
+using Microsoft.Data.SqlClient;
 
 namespace WhoWasHere.Server
 {
@@ -25,20 +27,15 @@ namespace WhoWasHere.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddHttpClient<IDayServices, DayService>(client =>
-            {
-                client.BaseAddress = new System.Uri("https://localhost:5001/");
-            });
-
-            services.AddDbContext<CalendarContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CalendarContext")));
+            services.AddDbContext<CalendarContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CalendarContext")));            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logger)
         {
+            logger.AddLog4Net("log4net.xml");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -56,7 +53,7 @@ namespace WhoWasHere.Server
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
