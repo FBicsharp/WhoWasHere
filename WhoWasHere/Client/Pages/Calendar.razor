@@ -47,7 +47,7 @@
                         @foreach (var day in week.Days)
                         {
 
-                            <td class="td-centered overtd" @onclick="@(e => OnModifyDayInfo(@day))">
+                            <td class="td-centered overtd th-limit" @onclick="@(e => OnModifyDayInfo(@day))">
 
                                 <span style="text-align:center; font-weight:bold; border-bottom:1px solid; display:inline;  "> @day.Date.Day</span>
 
@@ -81,6 +81,10 @@ else
 {
 <WhoWasHere.Client.Pages.Loader.Loding />
 }
+
+
+
+
 
 
 

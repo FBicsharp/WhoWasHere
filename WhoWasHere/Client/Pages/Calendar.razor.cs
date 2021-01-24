@@ -11,6 +11,7 @@ using WhoWasHere.Shared.Calendar;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Blazored.Toast.Services;
 
 namespace WhoWasHere.Client.Pages
 {
@@ -20,8 +21,8 @@ namespace WhoWasHere.Client.Pages
         public IDayServices DayServices { get; set; }
         [Inject]
         private ILogger<Calendar> Logger { get; set; }
-        
-        
+
+
         public List<Week> weeks { get; set; }        
 
 
@@ -34,12 +35,16 @@ namespace WhoWasHere.Client.Pages
         private DateTime dayfromdatapicker { get; set; }
 
         public IDay DaySelected { get; set; }
+
+        [Inject]
+        private IToastService toastService { get; set; }
+
         //|§FB001 gestione controllo select
         //public List<string> MonthsName { get; set; } = new List<string>();
         //|çFB001 
 
 
-        
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -192,6 +197,7 @@ namespace WhoWasHere.Client.Pages
             
             var newday = await DayServices.CreateOrUpdate(day as Day);            
             DaySelected = newday;
+            toastService.ShowSuccess("Day has been registered","Save Complate!");
             //chiama l'api e fa post dello specifico id            
         }
 

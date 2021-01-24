@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WhoWasHere.Client.Services;
+
 
 namespace WhoWasHere.Client
 {
@@ -21,6 +23,8 @@ namespace WhoWasHere.Client
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });            
             builder.Services.AddScoped<IDayServices, DayService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddBlazoredToast();
+
             await builder.Build().RunAsync();
           
         }
