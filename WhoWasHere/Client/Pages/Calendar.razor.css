@@ -75,3 +75,10 @@
     display: inline;
     resize:vertical;
 }
+
+.th-limit {
+    max-height: 200px;
+    max-width: 200px;
+    overflow: hidden;
+    word-wrap: break-word;
+}
