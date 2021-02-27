@@ -57,11 +57,13 @@ namespace WhoWasHere.Client.Pages
             try
             {                
                 GenerateCalendarHead();
-                var a = await GenerateCalendarBody();                
+                await GenerateCalendarBody();
+                //var loadingComplated = 
             }
             catch (Exception ex)
             {
                 var exep = "Error in initialize Calendar " + ex+ ex.StackTrace;
+                toastService.ShowError("Impossible load data from database","Error!");
                 Console.WriteLine(exep);
                 Logger.LogDebug(exep);
 
@@ -113,18 +115,18 @@ namespace WhoWasHere.Client.Pages
 
 
 
-                if (dt.Day%7 == 0)//1settimana
+                if (day.Date.Day%7 == 0)//1settimana
                 {
                     week = new Week();
                     week.Days = days;
                     weeks.Add(week);
                     days = new List<IDay>();                    
                 }
-                if (dt >= endDate)
+                if (day.Date >= endDate)
                 {
                     if (DaySelected == null )
                     {
-                        DaySelected = days.Last();
+                        DaySelected = weeks.Last().Days.Last();
                     }
                     week = new Week();
                     week.Days = days;
@@ -198,7 +200,7 @@ namespace WhoWasHere.Client.Pages
             var newday = await DayServices.CreateOrUpdate(day as Day);            
             DaySelected = newday;
             toastService.ShowSuccess("Day has been registered","Save Complate!");
-            //chiama l'api e fa post dello specifico id            
+            // TODO: introdurre il controllo per visualizzazione messaggio
         }
 
 
