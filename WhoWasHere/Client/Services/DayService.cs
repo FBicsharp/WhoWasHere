@@ -90,7 +90,7 @@ namespace WhoWasHere.Client.Services
 
         public async Task<IDay> CreateOrUpdate(Day day)
         {
-
+            // TODO: Riportare questa logica nel chiamante, in moda da chiamre le singole chiamate e distinguere il resul e action 
             if (day.Id == 0 && String.IsNullOrEmpty(day.Note.Trim()))
                 return day;
             IDay result = day;
