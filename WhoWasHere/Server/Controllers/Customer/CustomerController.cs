@@ -25,9 +25,17 @@ namespace WhoWasHere.Server.Controllers.Customer
         #region GET...
         // GET: api/Calendar
         [HttpGet]
-        public async Task<JsonResult> GetCustomers()
+        public async Task<ActionResult> GetCustomers()
         {
-            var test = await _context.CustomerModel.ToListAsync();
+            var test = new List<CustomerModel>();
+            try
+            {
+                test = _context.CustomerModel.ToList();
+            }
+            catch (Exception e3x)
+            {
+                Console.WriteLine("Error: "+e3x);                
+            }
             return new JsonResult(test);
             //return await _context.Day.ToListAsync();
 
