@@ -40,8 +40,8 @@ namespace WhoWasHere.Client.Pages.Inserctions
         }
         public void Close()
         {
-            ShowDialog = false;
             StateHasChanged();
+            ShowDialog = false;
         }
         private void ResetDialog()
         {
@@ -51,8 +51,8 @@ namespace WhoWasHere.Client.Pages.Inserctions
         {
             await CustomerService.PostCustomerAsync(Customers);
             ShowDialog = false;
-            await CloseEventCallback.InvokeAsync(true);
             StateHasChanged();
+            await CloseEventCallback.InvokeAsync(true);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace WhoWasHere.Client.Pages.Customer
         
         public IEnumerable<CustomerModel> Customerlist { get; set; }
 
+       
         protected async  override Task OnInitializedAsync()
         {
             Customerlist = await CustomerService.GetCustomersAsync();
@@ -26,7 +27,14 @@ namespace WhoWasHere.Client.Pages.Customer
         }
 
 
-       
+        public async void ReloadList()
+        {
+             Customerlist = await CustomerService.GetCustomersAsync();
+            StateHasChanged();
+        }
+
+
+
 
 
     }
