@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WhoWasHere.Shared.Customer
 {
-    public class CustomerModel : IPerson,IPersonData
+    public class CustomerModel : IPersonData
     {
         public string GetFullName()
         {
@@ -18,12 +18,14 @@ namespace WhoWasHere.Shared.Customer
 
         [Required]        
         public string Name { get; set; }
-        
-        public string Surname { get; set; }
         [Required]
-        public long PhoneNumber { get; set; }
-        
+        public string Surname { get; set; }
+        [MinLength(5)]
+        [MaxLength(15)]
+        [Required]
+        public string PhoneNumber { get; set; }        
         public string Address { get; set; }
+        public string Mail { get; set; }
         public string Notes { get; set; }
     }
 }
