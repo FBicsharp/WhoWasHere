@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WhoWasHere.Shared.Customer;
+using WhoWasHere.Shared.Round;
 
 namespace WhoWasHere.Server.Data.Customer
 {
@@ -15,6 +16,11 @@ namespace WhoWasHere.Server.Data.Customer
         }
 
         public DbSet<CustomerModel> CustomerModel { get; set; }
+        public DbSet<Appointment> Appointment { get; set; }
+
+
+
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
