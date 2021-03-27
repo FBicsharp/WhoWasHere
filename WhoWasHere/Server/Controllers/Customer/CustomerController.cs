@@ -30,7 +30,7 @@ namespace WhoWasHere.Server.Controllers.Customer
             var test = new List<CustomerModel>();
             try
             {
-                test = _context.CustomerModel.ToList();
+                test = await _context.CustomerModel.ToListAsync();
             }
             catch (Exception e3x)
             {
@@ -94,7 +94,7 @@ namespace WhoWasHere.Server.Controllers.Customer
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DayExists(id))
+                if (!CustomerExists(id))
                 {
                     return NotFound();
                 }
@@ -137,21 +137,21 @@ namespace WhoWasHere.Server.Controllers.Customer
 
         // DELETE: api/Calendar/5
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteGetCustomer(int id)
+        public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var day = await _context.CustomerModel.FindAsync(id);
-            if (day == null)
+            var customer = await _context.CustomerModel.FindAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            _context.CustomerModel.Remove(day);
+            _context.CustomerModel.Remove(customer);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DayExists(int id)
+        private bool CustomerExists(int id)
         {
             return _context.CustomerModel.Any(e => e.Id == id);
         }
