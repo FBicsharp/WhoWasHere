@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WhoWasHere.Server.Data.Customer;
 using WhoWasHere.Shared.Customer;
 
@@ -16,6 +16,7 @@ namespace WhoWasHere.Server.Controllers.Customer
     public class CustomerController : ControllerBase
     {
         private readonly CustomerContext _context;
+        
 
         public CustomerController(CustomerContext context)
         {
@@ -43,7 +44,7 @@ namespace WhoWasHere.Server.Controllers.Customer
 
         // GET: api/Calendar/id
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<CustomerModel>> GetCustomerById(int id)
+        public async Task<ActionResult<IPersonData>> GetCustomerById(int id)
         {
             var customer = await _context.CustomerModel.FindAsync(id);
 
@@ -92,8 +93,9 @@ namespace WhoWasHere.Server.Controllers.Customer
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException db_ex)
             {
+                //_logger.LogError($"{System.Reflection.MethodInfo.GetCurrentMethod()} trace {db_ex.InnerException} {db_ex.StackTrace}");
                 if (!CustomerExists(id))
                 {
                     return NotFound();

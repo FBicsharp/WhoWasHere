@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/WhoWasHere/Client/Pages/Notify.razor
+/WhoWasHere/Shared/TASK.json

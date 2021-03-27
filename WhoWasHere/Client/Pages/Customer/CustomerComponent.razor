@@ -22,14 +22,17 @@
                 <div class="card-footer text-muted">
                     @p.Notes
                 </div>
+                <button class="oi oi-trash btn btn-danger" @onclick="@(e => Delete(@p))">
+                    Delete
+                </button>
             </div>
         }
     }
-<div>
-    <Registration RegistrationEventCallback="ReloadList"></Registration>
+    <div>
+        <Registration RegistrationEventCallback="ReloadList"></Registration>
 
-</div>
-    
+    </div>
+
 }
 else
 {

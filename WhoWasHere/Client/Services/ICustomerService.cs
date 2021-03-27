@@ -9,7 +9,7 @@ namespace WhoWasHere.Client.Services
     public interface ICustomerService
     {
         Task<IEnumerable<CustomerModel>> GetCustomersAsync();
-        Task<CustomerModel> GetCustomerFromIdAsync(int id);
+        Task<IPersonData> GetCustomerFromIdAsync(int id);
         Task<CustomerModel> PostCustomerAsync(CustomerModel day);        
         Task<CustomerModel> PutCustomerAsync(int id, CustomerModel customer);
         Task<CustomerModel> DeleteCustomerAsync(CustomerModel customer);

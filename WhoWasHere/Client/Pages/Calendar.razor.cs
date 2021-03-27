@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using Blazored.Toast.Services;
+using WhoWasHere.Client.Shared.AppointmentInserction;
+using WhoWasHere.Client.Pages.DailyAppointment;
 
 namespace WhoWasHere.Client.Pages
 {
@@ -35,6 +37,8 @@ namespace WhoWasHere.Client.Pages
         private DateTime dayfromdatapicker { get; set; }
 
         public IDay DaySelected { get; set; }
+        public DailyAppointmentsComponent appointments { get; set; }
+
 
         [Inject]
         private IToastService toastService { get; set; }
@@ -136,7 +140,9 @@ namespace WhoWasHere.Client.Pages
                 }                                
             }
             return true;
-            
+            appointments.DayId = DaySelected.Id;
+
+
         }
 
         /// <summary>
@@ -187,12 +193,16 @@ namespace WhoWasHere.Client.Pages
             
         }
 
-        
+
 
         #region Editing day info
 
 
-        protected void OnModifyDayInfo(IDay day)=> DaySelected = day;
+        protected async Task OnModifyDayInfo(IDay day)
+        {
+            DaySelected = day;
+            appointments.DayId = DaySelected.Id;            
+        }
 
         protected async void OnSaveDayInfo(IDay day)
         {            
@@ -200,27 +210,13 @@ namespace WhoWasHere.Client.Pages
             var newday = await DayServices.CreateOrUpdate(day as Day);            
             DaySelected = newday;
             toastService.ShowSuccess("Day has been registered","Save Complate!");
-            // TODO: introdurre il controllo per visualizzazione messaggio
+            
         }
 
 
 
         #endregion
 
-
-
-
-
-
-
-
-
-        //public WeatherForecast[] forecasts ;
-
-        //protected override async Task OnInitializedAsync()
-        //{            
-        //    forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");            
-        //}
 
     }
 

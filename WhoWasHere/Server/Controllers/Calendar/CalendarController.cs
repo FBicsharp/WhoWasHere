@@ -125,7 +125,7 @@ namespace WhoWasHere.Server.Controllers.Calendar
 
 
 
-
+        //TODO Non posso elimniare il giorno quando farò un associazione con l'id, posso eliminarlo solo se non ho appuntamenti
         // DELETE: api/Calendar/5
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteDay(int id)

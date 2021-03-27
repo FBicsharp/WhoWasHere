@@ -1,0 +1,48 @@
+﻿@page "/AppointmentAdding"
+@using WhoWasHere.Client.Pages.Inserctions;
+
+
+
+
+    <div>
+
+        <button class="btn btn-primary" type="submit" @onclick="@(e=> AddAppointment())"> Add</button>
+    </div>
+    <AppointmentInserction @ref="ins" CloseEventCallback="OnInserctionComplate"></AppointmentInserction>
+
+
+@code
+{ 
+
+    [Parameter]
+    public EventCallback<bool> RegistrationEventCallback
+    {
+        get;
+        set;
+    }
+
+    [Parameter]
+    public int DayId{ get; set; }
+
+
+    public AppointmentInserction ins { get; set; }
+
+    protected void AddAppointment()
+    {
+        ins.Show(this.DayId);
+
+    }
+
+
+
+    protected Task<bool> OnInserctionComplate()
+    {
+
+        RegistrationEventCallback.InvokeAsync(true);
+        return Task.FromResult(true);
+    }
+
+
+
+
+}

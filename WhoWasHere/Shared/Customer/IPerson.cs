@@ -15,6 +15,7 @@ namespace WhoWasHere.Shared.Customer
         string Address { get; set; }
         string Notes { get; set; }
         string Mail { get; set; }
+        string GetFullName();
 
     }
 }

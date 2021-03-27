@@ -1,0 +1,47 @@
+﻿
+
+@if (_appointments != null)
+{
+    if (_appointments.Count() == 0)
+    {
+        <p>No appointment </p>
+    }
+    else
+    {
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>StartAppointment</th>
+                    <th>EndAppointment</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appointment in _appointments)
+                {
+                    <tr>
+                        <td>@appointment.customer.GetFullName()</td>
+                        <td>@appointment.customer.PhoneNumber</td>
+                        <td>@appointment.StartAppointment</td>
+                        <td>@appointment.EndAppointment</td>
+                        <td>
+                            <button class="oi oi-trash btn btn-danger" @onclick="@(e => Delete(@appointment))">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
+}
+else
+{
+
+    <WhoWasHere.Client.Pages.Loader.Loding></WhoWasHere.Client.Pages.Loader.Loding>
+}

@@ -37,7 +37,7 @@ namespace WhoWasHere.Client.Services
             }
         }
 
-        public async Task<CustomerModel> GetCustomerFromIdAsync(int id)
+        public async Task<IPersonData> GetCustomerFromIdAsync(int id)
         {
             return await httpClient.GetFromJsonAsync<CustomerModel>($"{baseURI}{id}");
         }
