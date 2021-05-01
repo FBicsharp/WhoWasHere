@@ -127,6 +127,7 @@ namespace WhoWasHere.Client.Pages.DailyAppointment
         {
             await LoadList();
             StateHasChanged();
+            await ChangeDayEventCallback.InvokeAsync(true);
         }
 
 

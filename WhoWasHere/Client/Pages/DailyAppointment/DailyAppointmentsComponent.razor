@@ -25,8 +25,8 @@
                     <tr>
                         <td>@appointment.customer.GetFullName()</td>
                         <td>@appointment.customer.PhoneNumber</td>
-                        <td>@appointment.StartAppointment.ToString("hh:mm")</td>
-                        <td>@appointment.EndAppointment.ToString("hh:mm")</td>
+                        <td>@appointment.StartAppointment</td>
+                        <td>@appointment.EndAppointment</td>
                         <td>
                             <button class="oi oi-trash btn btn-danger" @onclick="@(e => Delete(@appointment))">
                                 Delete
@@ -41,7 +41,7 @@
         </table>
     }
 
-    <WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding RegistrationEventCallback="ReloadList" Day="@DateTime.Now"></WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding>
+    <WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding  RegistrationEventCallback="ReloadList" Day="@DateTime.Now"></WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding>
 
 }
 else

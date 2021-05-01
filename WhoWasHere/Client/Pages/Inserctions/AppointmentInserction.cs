@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using WhoWasHere.Client.Services;
 using WhoWasHere.Shared.Customer;
@@ -19,17 +20,18 @@ namespace WhoWasHere.Client.Pages.Inserctions
         public IEnumerable<CustomerModel> _customer { get; private set; }
         public IEnumerable<Appointment> _appointmentList { get; set; }
 
-        public DateTime StartAppointment { get; set; } 
+        public DateTime StartAppointment { get; set; }
         public DateTime DayAppointment { get; set; }
-        public DateTime EndAppointment { get; set; } 
-        
-        
+        public DateTime EndAppointment { get; set; }
+
+
         [Inject]
-        public IAppointmentService AppointmentService {get;set;}
+        public IAppointmentService AppointmentService { get; set; }
 
         [Inject]
         public ICustomerService CustomerService { get; set; }
-
+        [Inject]
+        private IToastService _toastService { get; set; }
         public bool ShowDialog
         {
             get;
@@ -47,7 +49,7 @@ namespace WhoWasHere.Client.Pages.Inserctions
         {
             _Day = Day;
             DayAppointment = DateTime.Now;//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
-            StartAppointment = DateTime.Now;//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
+            StartAppointment = DateTime.Now.AddMinutes(5);//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
             EndAppointment = StartAppointment.AddMinutes(15);
 
             var loadcomplate = await ResetDialog();
@@ -73,7 +75,25 @@ namespace WhoWasHere.Client.Pages.Inserctions
         {
             appointment.StartAppointment = new DateTime(DayAppointment.Year, DayAppointment.Month, DayAppointment.Day, StartAppointment.Hour, StartAppointment.Minute, 0);
             appointment.EndAppointment = new DateTime(DayAppointment.Year, DayAppointment.Month, DayAppointment.Day, EndAppointment.Hour, EndAppointment.Minute, 0);
-            await AppointmentService.PostAppointmentAsync(appointment);
+            if (appointment.IdCustomer == 0 || appointment.StartAppointment > appointment.EndAppointment)
+            {
+                _toastService.ShowError("Appointment is incorrect!");
+
+            }
+            else
+            {
+
+
+                appointment = await AppointmentService.PostAppointmentAsync(appointment);
+                if (appointment.Id > 0)
+                {
+                    _toastService.ShowSuccess("Appointment inserted!");
+                }
+                else
+                {
+                    _toastService.ShowError("Unable to insert this appointment !");
+                }
+            }
 
             ShowDialog = false;
             StateHasChanged();
