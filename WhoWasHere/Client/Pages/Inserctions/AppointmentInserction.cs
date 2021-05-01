@@ -48,7 +48,7 @@ namespace WhoWasHere.Client.Pages.Inserctions
         public async Task Show(DateTime Day)
         {
             _Day = Day;
-            DayAppointment = DateTime.Now;//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
+            DayAppointment = _Day;//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
             StartAppointment = DateTime.Now.AddMinutes(5);//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
             EndAppointment = StartAppointment.AddMinutes(15);
 

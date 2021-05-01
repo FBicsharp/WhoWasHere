@@ -22,15 +22,19 @@
     }
 
     [Parameter]
-    public DateTime Day{ get; set; }
-    
+    public DateTime? Day { get; set; } = null;
+
 
 
     public AppointmentInserction ins { get; set; }
 
     protected void AddAppointment()
     {
-        ins.Show(this.Day);
+        if (Day == null)
+        {
+            Day = DateTime.Now;  
+        }
+        ins.Show((DateTime)Day);
 
     }
 

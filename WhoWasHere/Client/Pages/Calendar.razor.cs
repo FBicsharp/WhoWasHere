@@ -58,6 +58,7 @@ namespace WhoWasHere.Client.Pages
             //MonthsName.Remove("");
 
             //|çFB001 
+            
             try
             {                
                 GenerateCalendarHead();
@@ -139,7 +140,6 @@ namespace WhoWasHere.Client.Pages
                     break;
                 }                                
             }
-            appointments.Day = DaySelected.Date;
             return true;
 
 
@@ -201,7 +201,7 @@ namespace WhoWasHere.Client.Pages
         protected async Task OnModifyDayInfo(IDay day)
         {
             DaySelected = day;
-            appointments.Day = DaySelected.Date;            
+            appointments.Day = DaySelected.Date;
         }
 
         protected async void OnSaveDayInfo(IDay day)
