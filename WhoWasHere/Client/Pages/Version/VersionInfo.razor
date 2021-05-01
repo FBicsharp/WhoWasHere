@@ -1,0 +1,24 @@
+﻿@page "/Versioninfo"
+@using WhoWasHere.Shared
+
+<h3>Version Info</h3>
+
+<h4>Version: @SwVersion</h4>
+<h4>Release Date: @Relase</h4>
+<h4>Release Number: @ReleaseNumber</h4>
+<h4>Developer Email: @email</h4>
+
+
+
+@code {
+    public string email { get; set; } = "F.bicciato.Lavoro@gmail.com";
+    public string SwVersion { get; set; } = GetAssemblyFileVersion();
+    public DateTime Relase { get; set; } = DateTime.Parse("01/05/2021");
+    public int ReleaseNumber { get; set; } = 1;
+
+    public static string GetAssemblyFileVersion()
+    {
+        return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        
+    }
+}

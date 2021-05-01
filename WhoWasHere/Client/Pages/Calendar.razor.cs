@@ -139,8 +139,8 @@ namespace WhoWasHere.Client.Pages
                     break;
                 }                                
             }
-            return true;
             appointments.Day = DaySelected.Date;
+            return true;
 
 
         }
