@@ -22,14 +22,15 @@
     }
 
     [Parameter]
-    public int DayId{ get; set; }
+    public DateTime Day{ get; set; }
+    
 
 
     public AppointmentInserction ins { get; set; }
 
     protected void AddAppointment()
     {
-        ins.Show(this.DayId);
+        ins.Show(this.Day);
 
     }
 

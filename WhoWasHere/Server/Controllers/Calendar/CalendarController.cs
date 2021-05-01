@@ -53,7 +53,7 @@ namespace WhoWasHere.Server.Controllers.Calendar
         public async Task<JsonResult> GetDayBetweenDateAsync(DateTime startDate, DateTime endDate)
         {
 
-            var dayList = _context.Day.Where(d => d.Date >= startDate && d.Date <= endDate).ToList();
+            var dayList =  _context.Day.Where(d => d.Date >= startDate && d.Date <= endDate).ToList();
 
             if (dayList.Count() >= 0)
             {

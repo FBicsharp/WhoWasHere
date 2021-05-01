@@ -44,10 +44,13 @@ namespace WhoWasHere.Server.Controllers.Customer
         }
 
         // GET: api/Calendar/id
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult> GetAppointmentsByDayId(int id)
+        [HttpGet("{day:DateTime}")]
+        public async Task<ActionResult> GetAppointmentsByDay(DateTime day)
         {
-            var appointments = await _context.Appointment.Where(a => a.IdDay == id).OrderBy(a=>a.StartAppointment).ToListAsync();
+
+            var appointments =  _context.Appointment.Where(a => a.StartAppointment.Day == day.Day 
+                && a.StartAppointment.Month == day.Month && a.StartAppointment.Year == day.Year
+            ).OrderBy(a=>a.Id).ToList();
 
             if (appointments == null)
             {

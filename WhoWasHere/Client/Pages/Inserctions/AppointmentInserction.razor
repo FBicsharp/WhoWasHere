@@ -15,28 +15,30 @@
                 </div>
                 <div class="modal-body">
                     <EditForm Model="@appointment" OnValidSubmit="@HandleValidSubmit">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+                        @*<DataAnnotationsValidator />
+        <ValidationSummary />*@
+                        <label for="customer">Customer: </label>
+                        <select id="customer" class="form-control" @bind="appointment.IdCustomer">
+                            @foreach (var cnt in _customer)
+                            {
+                                <option value="@cnt.Id">@cnt.GetFullName()</option>
+                            }
+                        </select>
                         <div class="form-group">
-                            <label for="lastName">Customer: </label>
-                            <select @bind="customerList">                                
-                                    @foreach (var cnt in customerList)
-                                    {
-                                        <option value="@cnt.Id">@cnt.GetFullName()</option>
-                                    }
-                            </select>
-                            <ValidationMessage For="@(() => appointment.IdCustomer)" />
                         </div>
 
                         <div class="form-group">
-                            <label for="start">Start hour: </label>
-                            <InputDate  id="start" class="form-control" @bind-Value="@appointment.StartAppointment" placeholder="Start hour"></InputDate>
-                            <ValidationMessage For="@(() => appointment.StartAppointment)" />
+                            <label for="start">Day: </label>
+                            <input type="date" id="start" class="form-control" @bind-value="@DayAppointment" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="startT">Start hour: </label>
+                            <input type="time" id="startT" class="form-control" @bind-value="@StartAppointment" />
                         </div>
                         <div class="form-group">
-                            <label for="end">End hour: </label>
-                            <InputDate id="end" class="form-control" @bind-Value="@appointment.EndAppointment" placeholder="End hour"></InputDate>
-                            <ValidationMessage For="@(() => appointment.EndAppointment)" />
+                            <label for="endT">End hour: </label>
+                            <input type="time" for id="endT" class="form-control" @bind-value="@EndAppointment" />
                         </div>
 
 

@@ -48,9 +48,9 @@ namespace WhoWasHere.Client.Services
         }
 
 
-        public async Task<IEnumerable<Appointment>> GetAppointmentsOfDayAsync(int id)
+        public async Task<IEnumerable<Appointment>> GetAppointmentsOfDayAsync(DateTime day)
         {
-            return await httpClient.GetFromJsonAsync<IEnumerable<Appointment>>($"{baseURI}{id}");
+            return await httpClient.GetFromJsonAsync<IEnumerable<Appointment>>($"{baseURI}{day.ToString("yyyy-MM-dd")}");
         }
 
 

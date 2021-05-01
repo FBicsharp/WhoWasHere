@@ -22,8 +22,8 @@ namespace WhoWasHere.Client.Pages.DailyAppointment
         public IEnumerable<Appointment> _appointments { get; set; }
 
 
-        private int _dayid;
-        public int DayId { 
+        private DateTime _dayid;
+        public DateTime Day { 
             get { return _dayid; } 
             set {
                 _dayid = value;
@@ -42,18 +42,17 @@ namespace WhoWasHere.Client.Pages.DailyAppointment
 
         protected async override Task OnInitializedAsync()
         {
-            if (DayId ==0)
-            {
-                _appointments = new List<Appointment>();
-                return ;
-            }
+            if (Day == null || Day < DateTime.Now.AddYears(-100))
+            {                
+                Day = DateTime.Now;                
+            }else
             await LoadList();
         }
 
 
         public async Task<bool> LoadList()
         {
-            _appointments = await _appointmentService.GetAppointmentsOfDayAsync(DayId);
+            _appointments = await _appointmentService.GetAppointmentsOfDayAsync(Day);
             foreach (var appointment in _appointments)
             {
                 appointment.customer = await _customerService.GetCustomerFromIdAsync(appointment.IdCustomer);
@@ -88,6 +87,37 @@ namespace WhoWasHere.Client.Pages.DailyAppointment
 
         }
 
+        public async void Modify(Appointment appointment)
+        {
+            try
+            {
+
+                var response = await _appointmentService.PutAppointmentAsync(appointment.Id,appointment);
+
+                if (response.Id == 0)
+                {
+                    _toastService.ShowSuccess("appointment changed!");
+                }
+                else
+                {
+                    _toastService.ShowError("Unable to change this appointment !");
+                }
+                await LoadList();
+                StateHasChanged();
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("ERROR: " + ex.StackTrace);
+            }
+
+        }
+        public async void ReloadList()
+        {
+            await LoadList();
+            StateHasChanged();
+        }
 
 
         public EventCallback<bool> ChangeDayEventCallback

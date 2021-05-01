@@ -5,6 +5,7 @@
     if (_appointments.Count() == 0)
     {
         <p>No appointment </p>
+        <WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding RegistrationEventCallback="ReloadList" Day="@DateTime.Now"></WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding>
     }
     else
     {
@@ -31,6 +32,9 @@
                             <button class="oi oi-trash btn btn-danger" @onclick="@(e => Delete(@appointment))">
                                 Delete
                             </button>
+                            @*<button class="oi oi-trash btn btn-danger" @onclick="@(e => Modify(@appointment))">
+                                Modify
+                            </button>*@
                         </td>
                     </tr>
                 }

@@ -140,7 +140,7 @@ namespace WhoWasHere.Client.Pages
                 }                                
             }
             return true;
-            appointments.DayId = DaySelected.Id;
+            appointments.Day = DaySelected.Date;
 
 
         }
@@ -201,7 +201,7 @@ namespace WhoWasHere.Client.Pages
         protected async Task OnModifyDayInfo(IDay day)
         {
             DaySelected = day;
-            appointments.DayId = DaySelected.Id;            
+            appointments.Day = DaySelected.Date;            
         }
 
         protected async void OnSaveDayInfo(IDay day)

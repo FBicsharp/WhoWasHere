@@ -11,7 +11,7 @@ namespace WhoWasHere.Client.Services
     {
         Task<IEnumerable<Appointment>> GetAppointmentsAsync();
         Task<Appointment> GetAppointmentFromIdAsync(int id);
-        Task<IEnumerable<Appointment>> GetAppointmentsOfDayAsync(int id);
+        Task<IEnumerable<Appointment>> GetAppointmentsOfDayAsync(DateTime day);
         Task<Appointment> PostAppointmentAsync(Appointment appointment);        
         Task<Appointment> PutAppointmentAsync(int id, Appointment appointment);
         Task<Appointment> DeleteAppointmentAsync(Appointment appointment);

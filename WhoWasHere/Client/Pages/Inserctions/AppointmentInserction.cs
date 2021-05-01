@@ -16,9 +16,14 @@ namespace WhoWasHere.Client.Pages.Inserctions
             get;
             set;
         } = new Appointment { };
-        public IEnumerable<CustomerModel> customerList { get; set; }
+        public IEnumerable<CustomerModel> _customer { get; private set; }
+        public IEnumerable<Appointment> _appointmentList { get; set; }
 
-
+        public DateTime StartAppointment { get; set; } 
+        public DateTime DayAppointment { get; set; }
+        public DateTime EndAppointment { get; set; } 
+        
+        
         [Inject]
         public IAppointmentService AppointmentService {get;set;}
 
@@ -36,11 +41,14 @@ namespace WhoWasHere.Client.Pages.Inserctions
             get;
             set;
         }
-        private int _DayId { get; set; }
+        private DateTime _Day { get; set; }
 
-        public async Task Show(int DayId)
+        public async Task Show(DateTime Day)
         {
-            _DayId = DayId;
+            _Day = Day;
+            DayAppointment = DateTime.Now;//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
+            StartAppointment = DateTime.Now;//(DateTime.Now.ToString("yyyy/MM/dd hh:mm"));
+            EndAppointment = StartAppointment.AddMinutes(15);
 
             var loadcomplate = await ResetDialog();
             if (loadcomplate)
@@ -57,13 +65,16 @@ namespace WhoWasHere.Client.Pages.Inserctions
         private async Task<bool> ResetDialog()
         {
             appointment = new Appointment { };
-            customerList =  await CustomerService.GetCustomersAsync();
+            _customer = await CustomerService.GetCustomersAsync();
+            //_appointmentList = await AppointmentService.GetAppointmentsOfDayAsync(_Day);
             return true;
         }
         protected async Task HandleValidSubmit()
         {
-            appointment.IdDay = _DayId;
+            appointment.StartAppointment = new DateTime(DayAppointment.Year, DayAppointment.Month, DayAppointment.Day, StartAppointment.Hour, StartAppointment.Minute, 0);
+            appointment.EndAppointment = new DateTime(DayAppointment.Year, DayAppointment.Month, DayAppointment.Day, EndAppointment.Hour, EndAppointment.Minute, 0);
             await AppointmentService.PostAppointmentAsync(appointment);
+
             ShowDialog = false;
             StateHasChanged();
             await CloseEventCallback.InvokeAsync(true);
