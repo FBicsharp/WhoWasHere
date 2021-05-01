@@ -5,7 +5,6 @@
     if (_appointments.Count() == 0)
     {
         <p>No appointment </p>
-        <WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding RegistrationEventCallback="ReloadList" Day="@DateTime.Now"></WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding>
     }
     else
     {
@@ -15,8 +14,8 @@
                 <tr>
                     <th>Customer</th>
                     <th>Phone</th>
-                    <th>StartAppointment</th>
-                    <th>EndAppointment</th>
+                    <th>Start appointment</th>
+                    <th>End appointment</th>
                     <th></th>
                 </tr>
             </thead>
@@ -26,15 +25,15 @@
                     <tr>
                         <td>@appointment.customer.GetFullName()</td>
                         <td>@appointment.customer.PhoneNumber</td>
-                        <td>@appointment.StartAppointment</td>
-                        <td>@appointment.EndAppointment</td>
+                        <td>@appointment.StartAppointment.ToString("hh:mm")</td>
+                        <td>@appointment.EndAppointment.ToString("hh:mm")</td>
                         <td>
                             <button class="oi oi-trash btn btn-danger" @onclick="@(e => Delete(@appointment))">
                                 Delete
                             </button>
                             @*<button class="oi oi-trash btn btn-danger" @onclick="@(e => Modify(@appointment))">
-                                Modify
-                            </button>*@
+                                    Modify
+                                </button>*@
                         </td>
                     </tr>
                 }
@@ -42,6 +41,7 @@
         </table>
     }
 
+    <WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding RegistrationEventCallback="ReloadList" Day="@DateTime.Now"></WhoWasHere.Client.Shared.AppointmentInserction.AppointmentAdding>
 
 }
 else

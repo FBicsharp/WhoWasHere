@@ -23,30 +23,33 @@ namespace WhoWasHere.Client.Pages.DailyAppointment
 
 
         private DateTime _dayid;
-        public DateTime Day { 
-            get { return _dayid; } 
-            set {
+        public DateTime Day
+        {
+            get { return _dayid; }
+            set
+            {
                 _dayid = value;
                 ReloadData();
-            } 
+            }
         }
 
-        private async Task ReloadData() 
+        private async Task ReloadData()
         {
             await LoadList();
             StateHasChanged();
         }
 
-         
+
 
 
         protected async override Task OnInitializedAsync()
         {
             if (Day == null || Day < DateTime.Now.AddYears(-100))
-            {                
-                Day = DateTime.Now;                
-            }else
-            await LoadList();
+            {
+                Day = DateTime.Now;
+            }
+            else
+                await LoadList();
         }
 
 
@@ -64,16 +67,23 @@ namespace WhoWasHere.Client.Pages.DailyAppointment
         {
             try
             {
-
-                var response = await _appointmentService.DeleteAppointmentAsync(appointment);
-
-                if (response.Id == 0)
+                if (appointment.StartAppointment < DateTime.Now)
                 {
-                    _toastService.ShowSuccess("appointment deleted!");
+                    _toastService.ShowError("Unable to delete this appointment becouse it is just completed!");
                 }
                 else
                 {
-                    _toastService.ShowError("Unable to delete this appointment !");
+
+                    var response = await _appointmentService.DeleteAppointmentAsync(appointment);
+
+                    if (response.Id == 0)
+                    {
+                        _toastService.ShowSuccess("appointment deleted!");
+                    }
+                    else
+                    {
+                        _toastService.ShowError("Unable to delete this appointment !");
+                    }
                 }
                 await LoadList();
                 StateHasChanged();
@@ -92,7 +102,7 @@ namespace WhoWasHere.Client.Pages.DailyAppointment
             try
             {
 
-                var response = await _appointmentService.PutAppointmentAsync(appointment.Id,appointment);
+                var response = await _appointmentService.PutAppointmentAsync(appointment.Id, appointment);
 
                 if (response.Id == 0)
                 {
